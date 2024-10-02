@@ -52,6 +52,21 @@ const IntegrationTestView: React.FunctionComponent<
     return formParams;
   };
 
+  const getFormContextValues = (contexts) => {
+    if (!contexts || !Array.isArray(contexts) || contexts?.length === 0) {
+      return [];
+    }
+    const formContexts = [];
+    contexts.forEach((context) => {
+      if (context.name) {
+        formContexts.push({ name: context.name, description: context.description });
+      } else {
+        formContexts.push(context);
+      }
+    });
+    return formContexts;
+  };
+
   const initialValues = {
     integrationTest: {
       name: integrationTest?.metadata.name ?? '',
@@ -59,6 +74,7 @@ const IntegrationTestView: React.FunctionComponent<
       revision: revision?.value ?? '',
       path: path?.value ?? '',
       params: getFormParamValues(integrationTest?.spec?.params),
+      contexts: getFormContextValues(integrationTest?.spec?.contexts),
       optional:
         integrationTest?.metadata.labels?.[IntegrationTestLabels.OPTIONAL] === 'true' ?? false,
     },
