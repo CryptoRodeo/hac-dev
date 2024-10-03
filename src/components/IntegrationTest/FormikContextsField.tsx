@@ -1,7 +1,6 @@
+/* eslint-disable camelcase */
 import * as React from 'react';
 import {
-  Flex,
-  FlexItem,
   TextContent,
   DataList,
   DataListItem,
@@ -20,16 +19,42 @@ import {
   CardBody,
 } from '@patternfly/react-core';
 import { MinusCircleIcon } from '@patternfly/react-icons/dist/js/icons/minus-circle-icon';
-import { PlusCircleIcon } from '@patternfly/react-icons/dist/js/icons/plus-circle-icon';
 import { FieldArray, useField } from 'formik';
 import { InputField } from '../../shared';
 import { Context } from '../../types/coreBuildService';
+import { ContextDropdown } from './ContextsDropDown';
 
 interface IntegrationTestContextProps {
   heading?: React.ReactNode;
   fieldName: string;
   initExpanded?: boolean;
 }
+
+const contextOptions = {
+  application: {
+    description: 'execute the integration test in all cases - this would be the default state',
+  },
+  group: {
+    description: 'execute the integration test for a Snapshot of the `group` type',
+  },
+  override: {
+    description: 'execute the integration test for a Snapshot of the `override` type',
+  },
+  component: {
+    description: 'execute the integration test for a Snapshot of the `component` type',
+  },
+  component_COMPONENT: {
+    description: 'execute the integration test for a specific component update',
+  },
+  pull_request: {
+    description:
+      'execute the integration test in case of the Snapshot being created for a `pull request` event',
+  },
+  push: {
+    description:
+      'execute the integration test in case of the Snapshot being created for a `push` event',
+  },
+};
 
 const IntegrationTestContexts: React.FC<React.PropsWithChildren<IntegrationTestContextProps>> = ({
   heading,
@@ -118,6 +143,19 @@ const IntegrationTestContexts: React.FC<React.PropsWithChildren<IntegrationTestC
               name={fieldName}
               render={(contextArrayHelpers) => (
                 <>
+                  <ContextDropdown
+                    name="context"
+                    helpText="The supported context you want to add to your integration test"
+                    contextsSet={contexts}
+                    onChange={(val: string) => {
+                      expandNewContext();
+                      contextArrayHelpers.push({
+                        name: val,
+                        description: contextOptions[val].description,
+                      });
+                    }}
+                    required
+                  />
                   <DataList aria-label="contexts-list" data-test="its-contexts-list">
                     {Array.isArray(contexts) &&
                       contexts.length > 0 &&
@@ -170,18 +208,6 @@ const IntegrationTestContexts: React.FC<React.PropsWithChildren<IntegrationTestC
                                 <DataListItemCells
                                   dataListCells={[
                                     <DataListCell
-                                      key="context-description"
-                                      width={3}
-                                      className="pf-v5-u-pl-xl pf-v5-u-pt-0"
-                                    >
-                                      <FormGroup label="Description">
-                                        <InputField
-                                          name={`${fieldName}[${index}].description`}
-                                          data-test={`context-${index}-description`}
-                                        />
-                                      </FormGroup>
-                                    </DataListCell>,
-                                    <DataListCell
                                       key="context-value"
                                       width={4}
                                       className="pf-v5-u-pl-xl pf-v5-u-pt-0"
@@ -193,6 +219,18 @@ const IntegrationTestContexts: React.FC<React.PropsWithChildren<IntegrationTestC
                                         />
                                       </FormGroup>
                                     </DataListCell>,
+                                    <DataListCell
+                                      key="context-description"
+                                      width={3}
+                                      className="pf-v5-u-pl-xl pf-v5-u-pt-0"
+                                    >
+                                      <FormGroup label="Description">
+                                        <InputField
+                                          name={`${fieldName}[${index}].description`}
+                                          data-test={`context-${index}-description`}
+                                        />
+                                      </FormGroup>
+                                    </DataListCell>,
                                   ]}
                                 />
                               </DataListItemRow>
@@ -200,32 +238,6 @@ const IntegrationTestContexts: React.FC<React.PropsWithChildren<IntegrationTestC
                           </DataListItem>
                         );
                       })}
-                    <DataListItem>
-                      <Flex>
-                        <FlexItem className="pf-v5-u-mt-md pf-v5-u-mb-md">
-                          <Button
-                            isInline
-                            type="button"
-                            variant="link"
-                            data-test="add-context-button"
-                            className="pf-v5-u-ml-md"
-                            icon={<PlusCircleIcon />}
-                            onClick={() => {
-                              expandNewContext();
-                              contextArrayHelpers.push({
-                                name: `context-${contexts.length + 1}`,
-                                description: '',
-                              });
-                            }}
-                          >
-                            Add Context
-                          </Button>
-                        </FlexItem>
-                        <Flex flex={{ default: 'flex_3' }}>
-                          <FlexItem />
-                        </Flex>
-                      </Flex>
-                    </DataListItem>
                   </DataList>
                 </>
               )}
