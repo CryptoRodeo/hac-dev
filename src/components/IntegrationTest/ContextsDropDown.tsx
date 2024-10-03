@@ -63,7 +63,7 @@ export const ContextDropdown: React.FC<ContextDropdownProps> = ({ contextsSet, .
     <DropdownField
       {...props}
       label="Supported contexts"
-      placeholder="Select Context to add"
+      placeholder="Select Context"
       items={dropdownItems}
     />
   );

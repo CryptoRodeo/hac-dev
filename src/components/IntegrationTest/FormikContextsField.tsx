@@ -145,7 +145,6 @@ const IntegrationTestContexts: React.FC<React.PropsWithChildren<IntegrationTestC
                 <>
                   <ContextDropdown
                     name="context"
-                    helpText="The supported context you want to add to your integration test"
                     contextsSet={contexts}
                     onChange={(val: string) => {
                       expandNewContext();
