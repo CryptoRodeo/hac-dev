@@ -7,10 +7,9 @@ type ContextDropdownProps = Omit<
   React.ComponentProps<typeof DropdownField>,
   'items' | 'label' | 'placeholder'
 > & {
-  contextsSet: Context[];
+  existingContexts: Context[];
 };
 
-// Define the structure of contextOptions
 interface ContextOption {
   description: string;
 }
@@ -39,7 +38,6 @@ const contextOptions: ContextOptions = {
   },
 };
 
-// Add TypeScript annotations to filterContextOptions
 const filterContextOptions = (
   options: ContextOptions,
   names: string[],
@@ -47,8 +45,8 @@ const filterContextOptions = (
   return Object.entries(options).filter(([name]) => !names.includes(name));
 };
 
-export const ContextDropdown: React.FC<ContextDropdownProps> = ({ contextsSet, ...props }) => {
-  const contextNamesAlreadyUsed = contextsSet.map((c) => c.name);
+export const ContextDropdown: React.FC<ContextDropdownProps> = ({ existingContexts, ...props }) => {
+  const contextNamesAlreadyUsed = existingContexts.map((c) => c.name);
 
   const dropdownItems = React.useMemo(
     () =>

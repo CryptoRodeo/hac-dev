@@ -7,6 +7,7 @@ import {
 import {
   IntegrationTestScenarioKind,
   Param,
+  Context,
   ResolverParam,
   ResolverType,
 } from '../../../../types/coreBuildService';
@@ -45,12 +46,20 @@ export const formatParams = (params): Param[] => {
   return newParams.length > 0 ? newParams : null;
 };
 
+export const formatContexts = (contexts): Context[] | null => {
+  if (!Array.isArray(contexts) || contexts.length === 0) return null;
+
+  const newContexts = contexts.map(({ name, description }) => ({ name, description }));
+
+  return newContexts.length ? newContexts : null;
+};
+
 export const editIntegrationTest = (
   integrationTest: IntegrationTestScenarioKind,
   integrationTestValues: IntegrationTestFormValues,
   dryRun?: boolean,
 ): Promise<IntegrationTestScenarioKind> => {
-  const { url, revision, path, optional, environmentName, environmentType, params } =
+  const { url, revision, path, optional, environmentName, environmentType, params, contexts } =
     integrationTestValues;
   const integrationTestResource: IntegrationTestScenarioKind = {
     ...integrationTest,
@@ -79,6 +88,7 @@ export const editIntegrationTest = (
         ],
       },
       params: formatParams(params),
+      contexts: formatContexts(contexts),
     },
   };
 

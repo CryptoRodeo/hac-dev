@@ -145,7 +145,7 @@ const IntegrationTestContexts: React.FC<React.PropsWithChildren<IntegrationTestC
                 <>
                   <ContextDropdown
                     name="context"
-                    contextsSet={contexts}
+                    existingContexts={contexts}
                     onChange={(val: string) => {
                       expandNewContext();
                       contextArrayHelpers.push({
@@ -177,7 +177,7 @@ const IntegrationTestContexts: React.FC<React.PropsWithChildren<IntegrationTestC
                               <DataListItemCells
                                 dataListCells={[
                                   <DataListCell key="context-title" width={5}>
-                                    <TextContent>{`Context-${index + 1}`}</TextContent>
+                                    <TextContent>{`Context: ${context.name}`}</TextContent>
                                   </DataListCell>,
 
                                   <DataListCell key="remove-context-button" width={3}>
