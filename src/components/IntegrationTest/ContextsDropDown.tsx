@@ -18,7 +18,7 @@ interface ContextOptions {
   [key: string]: ContextOption;
 }
 
-const contextOptions: ContextOptions = {
+export const contextOptions: ContextOptions = {
   application: {
     description: 'execute the integration test in all cases - this would be the default state',
   },

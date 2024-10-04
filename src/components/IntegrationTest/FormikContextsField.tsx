@@ -22,39 +22,13 @@ import { MinusCircleIcon } from '@patternfly/react-icons/dist/js/icons/minus-cir
 import { FieldArray, useField } from 'formik';
 import { InputField } from '../../shared';
 import { Context } from '../../types/coreBuildService';
-import { ContextDropdown } from './ContextsDropDown';
+import { ContextDropdown, contextOptions } from './ContextsDropDown';
 
 interface IntegrationTestContextProps {
   heading?: React.ReactNode;
   fieldName: string;
   initExpanded?: boolean;
 }
-
-const contextOptions = {
-  application: {
-    description: 'execute the integration test in all cases - this would be the default state',
-  },
-  group: {
-    description: 'execute the integration test for a Snapshot of the `group` type',
-  },
-  override: {
-    description: 'execute the integration test for a Snapshot of the `override` type',
-  },
-  component: {
-    description: 'execute the integration test for a Snapshot of the `component` type',
-  },
-  component_COMPONENT: {
-    description: 'execute the integration test for a specific component update',
-  },
-  pull_request: {
-    description:
-      'execute the integration test in case of the Snapshot being created for a `pull request` event',
-  },
-  push: {
-    description:
-      'execute the integration test in case of the Snapshot being created for a `push` event',
-  },
-};
 
 const IntegrationTestContexts: React.FC<React.PropsWithChildren<IntegrationTestContextProps>> = ({
   heading,
