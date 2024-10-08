@@ -9,7 +9,7 @@ import {
 import { useField } from 'formik';
 import { CheckboxField, InputField } from '../../../shared';
 import { RESOURCE_NAME_REGEX_MSG } from '../../../utils/validation-utils';
-import FormikContextsField from '../FormikContextsField';
+import ContextsField from '../ContextsField';
 import FormikParamsField from '../FormikParamsField';
 import './IntegrationTestSection.scss';
 
@@ -71,7 +71,7 @@ const IntegrationTestSection: React.FC<React.PropsWithChildren<Props>> = ({ isIn
           required
         />
         <FormikParamsField fieldName="integrationTest.params" />
-        <FormikContextsField fieldName="integrationTest.contexts" />
+        <ContextsField fieldName="integrationTest.contexts" />
 
         <CheckboxField
           name="integrationTest.optional"
